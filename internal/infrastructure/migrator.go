@@ -1,5 +1,8 @@
 package infrastructure
-import "embed"
+import (
+	"embed"
+	"sort"
+)
 //go:embed migrations/*.sql
 var MigrationFiles embed.FS
 func MigrationNames() ([]string, error) {
@@ -11,5 +14,6 @@ func MigrationNames() ([]string, error) {
 	for _, entry := range entries {
 		names = append(names, entry.Name())
 	}
+	sort.Strings(names)
 	return names, nil
 }
