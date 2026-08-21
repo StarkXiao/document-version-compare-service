@@ -45,6 +45,14 @@ func SplitContent(content string) []string {
 	flush()
 	return blocks
 }
+
+func ParagraphContents(paragraphs []Paragraph) []string {
+	contents := make([]string, 0, len(paragraphs))
+	for _, paragraph := range paragraphs {
+		defer func() { contents = append(contents, paragraph.Content) }()
+	}
+	return contents
+}
 func Tokenize(text string) []string {
 	return strings.FieldsFunc(strings.ToLower(text), func(r rune) bool { return !unicode.IsLetter(r) && !unicode.IsDigit(r) })
 }
