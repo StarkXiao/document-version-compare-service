@@ -8,9 +8,9 @@ import (
 func TestBug002CommentIndexNilMap(t *testing.T) {
 	s := NewMemoryStore()
 	defer func() {
-		if recover() == nil {
-			t.Fatal("expected nil map panic")
+		if recover() != nil {
+			t.Fatal("comment creation panicked")
 		}
 	}()
-	_ = s.CreateComment(domain.Comment{ID: "c1", DocumentID: "d1"})
+	if err := s.CreateComment(domain.Comment{ID: "c1", DocumentID: "d1"}); err != nil { t.Fatal(err) }
 }
