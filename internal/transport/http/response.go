@@ -22,6 +22,9 @@ func created(w http.ResponseWriter, r *http.Request, data any) {
 	respond(w, http.StatusCreated, "ok", "created", trace(r), data)
 }
 func failure(w http.ResponseWriter, r *http.Request, err error) {
+	if err == nil {
+		err = domain.ErrInvalid
+	}
 	status, code := http.StatusInternalServerError, "internal_error"
 	switch err {
 	case domain.ErrNotFound:

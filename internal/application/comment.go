@@ -2,6 +2,7 @@ package application
 import (
 	"document-version-compare-service/internal/domain"
 	"document-version-compare-service/internal/repository"
+	"fmt"
 	"strings"
 	"time"
 )
@@ -19,7 +20,7 @@ func (s *CommentService) Create(in CreateCommentInput) (domain.Comment, error) {
 	in.Content = strings.TrimSpace(in.Content)
 	version, err := s.store.GetVersion(in.VersionID)
 	if err != nil {
-		return domain.Comment{}, err
+		return domain.Comment{}, fmt.Errorf("load version: %v", err)
 	}
 	if version.DocumentID != in.DocumentID || in.Content == "" {
 		return domain.Comment{}, domain.ErrInvalid
