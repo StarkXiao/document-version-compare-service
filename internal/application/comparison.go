@@ -26,11 +26,11 @@ func (s *ComparisonService) Enqueue(base, target, documentID string) (domain.Com
 	return job, nil
 }
 func (s *ComparisonService) schedule(jobID string) {
-	if s.enqueue(jobID) {
+	if enqueueJob(s.enqueue, jobID) {
 		return
 	}
 	go func() {
-		for !s.enqueue(jobID) {
+		for !enqueueJob(s.enqueue, jobID) {
 			if s.ctx == nil {
 				time.Sleep(50 * time.Millisecond)
 				continue

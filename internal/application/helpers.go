@@ -17,6 +17,8 @@ func NewServices(store repository.Store, enqueue func(string) bool) *Services {
 	comparison := NewComparisonService(store, enqueue)
 	return &Services{Store: store, Documents: NewDocumentService(store, comparison.Enqueue), Comparisons: comparison, Comments: NewCommentService(store), Rollbacks: NewRollbackService(store, comparison.Enqueue)}
 }
+
+func enqueueJob(enqueue func(string) bool, id string) bool { return enqueue(id) }
 func id(prefix string) string {
 	bytes := make([]byte, 8)
 	if _, err := rand.Read(bytes); err != nil {
