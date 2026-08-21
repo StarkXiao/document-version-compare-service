@@ -21,6 +21,7 @@ func TestBug001ConcurrentCommentWrites(t *testing.T) {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
+			<-start
 			_ = s.CreateComment(domain.Comment{ID: fmt.Sprintf("c%d", i), DocumentID: "d"})
 		}(i)
 	}
