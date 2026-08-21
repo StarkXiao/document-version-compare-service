@@ -19,5 +19,5 @@ func TestBug005CancelledComparisonStillWritesResult(t *testing.T) {
 	job, err := services.Comparisons.Enqueue(first.ID, second.ID, first.DocumentID)
 	if err != nil { t.Fatal(err) }
 	services.Comparisons.Process(ctx, job.ID)
-	if _, err := s.GetResult(job.ID); err != nil { t.Fatal("cancelled job did not produce result") }
+	if _, err := s.GetResult(job.ID); err == nil { t.Fatal("cancelled job produced result") }
 }
