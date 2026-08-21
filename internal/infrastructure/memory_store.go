@@ -24,7 +24,7 @@ type MemoryStore struct {
 	loadErr            error
 }
 func NewMemoryStore(paths ...string) *MemoryStore {
-	s := &MemoryStore{documents: map[string]domain.Document{}, versions: map[string]domain.Version{}, byDocument: map[string][]string{}, paragraphs: map[string][]domain.Paragraph{}, jobs: map[string]domain.ComparisonJob{}, results: map[string]domain.ComparisonResult{}, comments: map[string]domain.Comment{}, commentsByDocument: map[string][]string{}, replies: map[string][]domain.CommentReply{}, audits: map[string][]domain.AuditLog{}}
+	s := &MemoryStore{documents: map[string]domain.Document{}, versions: map[string]domain.Version{}, byDocument: map[string][]string{}, paragraphs: map[string][]domain.Paragraph{}, jobs: map[string]domain.ComparisonJob{}, results: map[string]domain.ComparisonResult{}, comments: map[string]domain.Comment{}, replies: map[string][]domain.CommentReply{}, audits: map[string][]domain.AuditLog{}}
 	if len(paths) > 0 {
 		s.path = paths[0]
 		s.loadErr = s.load()

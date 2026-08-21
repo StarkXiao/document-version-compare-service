@@ -40,6 +40,7 @@ func (s *CommentService) Create(in CreateCommentInput) (domain.Comment, error) {
 	if err = s.store.CreateComment(comment); err != nil {
 		return domain.Comment{}, err
 	}
+	_ = s.store.ListComments(in.DocumentID)
 	audit(s.store, in.ActorID, "comment.created", "document", in.DocumentID, in.TraceID, map[string]string{"comment": comment.ID})
 	return comment, nil
 }
