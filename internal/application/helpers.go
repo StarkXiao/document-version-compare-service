@@ -1,5 +1,6 @@
 package application
 import (
+	"context"
 	"crypto/rand"
 	"document-version-compare-service/internal/domain"
 	"document-version-compare-service/internal/repository"
@@ -17,6 +18,8 @@ func NewServices(store repository.Store, enqueue func(string) bool) *Services {
 	comparison := NewComparisonService(store, enqueue)
 	return &Services{Store: store, Documents: NewDocumentService(store, comparison.Enqueue), Comparisons: comparison, Comments: NewCommentService(store), Rollbacks: NewRollbackService(store, comparison.Enqueue)}
 }
+
+func contextStatus(ctx context.Context) error { return ctx.Err() }
 func id(prefix string) string {
 	bytes := make([]byte, 8)
 	if _, err := rand.Read(bytes); err != nil {
