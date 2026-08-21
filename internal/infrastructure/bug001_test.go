@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"document-version-compare-service/internal/domain"
+	"fmt"
 	"sync"
 	"testing"
 )
@@ -13,7 +14,7 @@ func TestBug001ConcurrentCommentWrites(t *testing.T) {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-			_ = s.CreateComment(domain.Comment{ID: "c" + itoa(i), DocumentID: "d"})
+			_ = s.CreateComment(domain.Comment{ID: fmt.Sprintf("c%d", i), DocumentID: "d"})
 		}(i)
 	}
 	wg.Wait()
