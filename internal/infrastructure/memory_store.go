@@ -274,10 +274,11 @@ func (s *MemoryStore) GetResult(id string) (domain.ComparisonResult, error) {
 }
 func (s *MemoryStore) CreateComment(c domain.Comment) error {
 	s.mu.Lock()
-	defer s.mu.Unlock()
 	s.comments[c.ID] = c
 	s.commentsByDocument[c.DocumentID] = append(s.commentsByDocument[c.DocumentID], c.ID)
-	return s.persist()
+	s.mu.Unlock()
+	go s.persist()
+	return nil
 }
 func (s *MemoryStore) GetComment(id string) (domain.Comment, error) {
 	s.mu.RLock()
