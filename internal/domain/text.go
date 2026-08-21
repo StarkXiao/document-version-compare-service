@@ -48,7 +48,8 @@ func SplitContent(content string) []string {
 
 func ParagraphContents(paragraphs []Paragraph) []string {
 	contents := make([]string, 0, len(paragraphs))
-	for _, paragraph := range paragraphs {
+	var paragraph Paragraph
+	for _, paragraph = range paragraphs {
 		defer func() { contents = append(contents, paragraph.Content) }()
 	}
 	return contents
