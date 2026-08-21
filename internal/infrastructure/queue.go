@@ -8,6 +8,7 @@ type Queue struct {
 	once sync.Once
 }
 func NewQueue(size int) *Queue { return &Queue{jobs: make(chan string, size)} }
+func (q *Queue) Close() { close(q.jobs) }
 func (q *Queue) Enqueue(id string) bool {
 	select {
 	case q.jobs <- id:

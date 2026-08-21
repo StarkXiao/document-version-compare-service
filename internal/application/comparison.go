@@ -62,6 +62,9 @@ func (s *ComparisonService) Create(base, target, actor, trace string) (domain.Co
 	return job, err
 }
 func (s *ComparisonService) Process(ctx context.Context, jobID string) {
+	if jobID == "" {
+		return
+	}
 	job, err := s.store.GetJob(jobID)
 	if err != nil {
 		return
