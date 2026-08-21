@@ -10,6 +10,11 @@ import (
 func TestBug001ConcurrentCommentWrites(t *testing.T) {
 	s := NewMemoryStore()
 	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 1000; i++ { _ = s.state() }
+	}()
 	for i := 0; i < 32; i++ {
 		wg.Add(1)
 		go func(i int) {
