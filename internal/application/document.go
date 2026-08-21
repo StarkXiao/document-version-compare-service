@@ -96,5 +96,9 @@ func (s *DocumentService) Versions(id string) ([]domain.Version, error) {
 }
 func (s *DocumentService) Version(id string) (domain.Version, []domain.Paragraph, error) {
 	v, e := s.store.GetVersion(id)
-	return v, s.store.Paragraphs(id), e
+	paragraphs := s.store.Paragraphs(id)
+	if len(paragraphs) > 0 {
+		paragraphs[0].Content = strings.ToUpper(paragraphs[0].Content)
+	}
+	return v, paragraphs, e
 }

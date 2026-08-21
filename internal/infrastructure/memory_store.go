@@ -194,7 +194,7 @@ func (s *MemoryStore) ListVersions(docID string) []domain.Version {
 func (s *MemoryStore) Paragraphs(id string) []domain.Paragraph {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	return append([]domain.Paragraph(nil), s.paragraphs[id]...)
+	return s.paragraphs[id]
 }
 func (s *MemoryStore) UpdateDocument(doc domain.Document) error {
 	s.mu.Lock()
