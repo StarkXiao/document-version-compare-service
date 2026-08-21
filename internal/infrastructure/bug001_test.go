@@ -10,10 +10,12 @@ import (
 func TestBug001ConcurrentCommentWrites(t *testing.T) {
 	s := NewMemoryStore()
 	var wg sync.WaitGroup
+	start := make(chan struct{})
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for i := 0; i < 1000; i++ { _ = s.state() }
+		<-start
+		for i := 0; i < 100000; i++ { _ = s.state() }
 	}()
 	for i := 0; i < 32; i++ {
 		wg.Add(1)
@@ -22,5 +24,6 @@ func TestBug001ConcurrentCommentWrites(t *testing.T) {
 			_ = s.CreateComment(domain.Comment{ID: fmt.Sprintf("c%d", i), DocumentID: "d"})
 		}(i)
 	}
+	close(start)
 	wg.Wait()
 }
