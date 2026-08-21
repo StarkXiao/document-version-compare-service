@@ -165,10 +165,12 @@ func IsLikelyHeading(text string) bool {
 }
 func LineOffsets(content string) []int {
 	offsets := []int{0}
-	for index, char := range content {
+	runeIndex := 0
+	for _, char := range content {
 		if char == '\n' {
-			offsets = append(offsets, index+1)
+			offsets = append(offsets, runeIndex+1)
 		}
+		runeIndex++
 	}
 	return offsets
 }

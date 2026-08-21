@@ -4,6 +4,8 @@ import (
 	"encoding/hex"
 	"strings"
 )
+
+func ParagraphLineOffsets(content string) []int { return LineOffsets(content) }
 func Hash(text string) string {
 	sum := sha256.Sum256([]byte(text))
 	return hex.EncodeToString(sum[:])
